@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container-fluid">
         <a class="navbar-brand" href="/">Art.Auction</a>
@@ -32,6 +33,8 @@
         </div>
       </div>
     </nav>
+    <!-- show content from each page -->
+    <router-view></router-view>
   </div>
 </template>
 
