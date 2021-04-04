@@ -17,7 +17,7 @@
                      <label>Password</label>
                      <input type="password" class="form-control" placeholder="Password" v-model="password">
                   </div>
-                  <button type="submit" class="btn btn-black" @click="signIn()">Login</button>
+                  <button type="submit" class="btn btn-black" @click.prevent="signIn()">Login</button>
                   <button type="submit" class="btn btn-secondary">Register</button>
                </form>
             </div>
@@ -36,7 +36,10 @@ export default {
     },
     methods:{
         signIn(){
-            
+            console.log(this.username, this.password)
+            if(this.username == "admin" && this.password == "admin"){
+                window.location.href = "/"
+            }
         }
     }
 }
