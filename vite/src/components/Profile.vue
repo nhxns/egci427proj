@@ -82,9 +82,9 @@
           </div>
         </div>
       </main>
-      <!-- <ul>
-        <li :key="item.key" v-for="item in collections">{{ item.url }}</li>
-      </ul> -->
+      <ul>
+        <li :key="item.key" v-for="item in collections">{{ item.id }}</li>
+      </ul>
     </div>
   </div>
 </template>
@@ -106,7 +106,7 @@ export default {
       .then((snap) => {
         const collections = [];
         snap.forEach((doc) => {
-          collections.push(doc.data());
+          collections.push({ id: doc.id, ...doc.data() });
         });
         this.collections = collections;
         console.log(collections);

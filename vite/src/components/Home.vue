@@ -31,7 +31,7 @@
               <img :src="'' + picture.url" />
             </div>
             <div class="content">
-              <a class="header">{{ picture.artname }}</a>
+              <p class="header">{{ picture.artname }}</p>
               <div class="meta">
                 {{ picture.owner }}
               </div>
@@ -40,7 +40,13 @@
             <!-- sent ID in order to bid -->
             <div class="card-footer">
               <p class="card-text">
-                <a href="/bid" class="btn btn-dark">Bid now</a>
+                <router-link
+                  :to="{ path: 'bid', name: 'Bid', params: { picID: picture.id } }"
+                  append
+                >
+                  <button class="btn btn-xs btn-dark">Bid now</button>&nbsp;
+                </router-link>
+
                 <br />
                 <small class="text-muted">Close : {{ picture.timeclose }}</small>
               </p>
@@ -69,7 +75,7 @@ export default {
       .then((snap) => {
         const collections = [];
         snap.forEach((doc) => {
-          collections.push(doc.data());
+          collections.push({ id: doc.id, ...doc.data() });
         });
         this.Gallery = collections;
         console.log(collections);

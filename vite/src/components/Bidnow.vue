@@ -1,5 +1,10 @@
 <template>
   <div class="container mt-5">
+    <div class="pb-2">
+      <router-link to="/">
+        <button class="btn btn-xs btn-dark">Back</button>
+      </router-link>
+    </div>
     <!-- overall detail of the picture -->
     <div class="row featurette">
       <div class="col-md-5">
@@ -75,7 +80,7 @@
 </template>
 <script>
 export default {
-  name: "Home",
+  name: "Bid",
   components: {},
   data() {
     return {};
