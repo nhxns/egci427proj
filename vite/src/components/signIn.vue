@@ -5,27 +5,38 @@
         <h2>Art Augtion</h2>
         <p>Login or register from here to access.</p>
       </div>
-    </div>
-    <div class="main">
-      <div class="col-md-6 col-sm-12">
-        <div class="login-form">
-          <form>
-            <div class="form-group">
-              <label>User Name</label>
-              <input type="text" class="form-control" placeholder="User Name" v-model="username" />
-            </div>
-            <div class="form-group">
-              <label>Password</label>
-              <input
-                type="password"
-                class="form-control"
-                placeholder="Password"
-                v-model="password"
-              />
-            </div>
-            <button type="submit" class="btn btn-dark" @click.prevent="signIn()">Login</button>
-            <button type="submit" class="btn btn-secondary">Register</button>
-          </form>
+      <div class="main">
+        <div class="col-md-6 col-sm-12">
+          <div class="login-form">
+            <form>
+              <div class="form-group">
+                <label>User Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="User Name"
+                  v-model="username"
+                />
+              </div>
+              <div class="form-group">
+                <label>Password</label>
+                <input
+                  type="password"
+                  class="form-control"
+                  placeholder="Password"
+                  v-model="password"
+                />
+              </div>
+              <button type="submit" class="btn btn-black" @click.prevent="signIn()">Login</button>
+              <button type="submit" class="btn btn-register">Register</button>
+            </form>
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" class="form-control" placeholder="Password" v-model="password" />
+          </div>
+          <button type="submit" class="btn btn-dark" @click.prevent="signIn()">Login</button>
+          <button type="submit" class="btn btn-secondary">Register</button>
         </div>
       </div>
     </div>
@@ -122,7 +133,12 @@ body {
 }
 
 .btn-black {
-  background-color: #000 !important;
-  color: #fff;
+  background-color: black;
+  color: white;
+}
+
+.btn-register {
+  background-color: black;
+  color: white;
 }
 </style>

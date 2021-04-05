@@ -4,6 +4,7 @@ import SignIn from "../components/signIn.vue";
 import Buy from "../components/Buy.vue";
 import Sell from "../components/Sell.vue";
 import Profile from "../components/Profiie.vue";
+import SignUp from "../components/signUp.vue";
 
 // import HelloWorld from '../views/HelloWorld.vue'
 
@@ -34,6 +35,11 @@ const routes = [
     path: "/profile",
     name: "Profile",
     component: Profile,
+  },
+  {
+    path: "/signup",
+    name: "signUp",
+    component: SignUp,
   },
 ];
 
