@@ -23,19 +23,21 @@
         <div class="ui centered cards">
           <div
             class="ui card"
-            style="min-width: 15rem; max-width: 15rem"
+            style="min-width: 300px; max-width: 300px"
             v-for="(picture, index) in Gallery"
             :key="index"
           >
             <div class="image">
-              <img :src="'' + picture.url" />
+              <div class="full-img">
+                <img :src="'' + picture.url" style="align: center" width="" />
+              </div>
             </div>
             <div class="content">
               <p class="header">{{ picture.artname }}</p>
-              <div class="meta">
-                {{ picture.owner }}
+              <div class="meta">Artist: {{ picture.artist }}<br /></div>
+              <div class="description">
+                {{ picture.description }}
               </div>
-              <div class="description">{{ picture.description }}</div>
             </div>
             <!-- sent ID in order to bid -->
             <div class="card-footer">
@@ -48,7 +50,9 @@
                 </router-link>
 
                 <br />
-                <small class="text-muted">Close : {{ picture.timeclose }}</small>
+                <small class="text-muted"
+                  >Close : {{ Date(picture.timeclose.seconds).toLocaleString("en-US") }}</small
+                >
               </p>
             </div>
           </div>
@@ -59,6 +63,7 @@
 </template>
 <script>
 import firebase from "firebase";
+// import moment from "moment";
 export default {
   name: "Home",
   components: {},
@@ -81,7 +86,26 @@ export default {
         console.log(collections);
       });
   },
+  // methods: {
+  //   dateFormat(unix) {
+  //     const unixDate = new Date(unix.seconds);
+  //     return moment(String(unixDate)).format("MM/DD/YYYY hh:mm");
+  //   },
+  // },
 };
 </script>
 
-<style lang=""></style>
+<style lang="">
+.full-img {
+  height: 180px;
+  width: 300px;
+  overflow: hidden;
+}
+
+.full-img img {
+  display: block;
+  width: 300px;
+  margin-top: 30%;
+  transform: translateY(-50%);
+}
+</style>

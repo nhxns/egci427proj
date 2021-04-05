@@ -2,40 +2,31 @@
   <div class="container mt-5">
     <div class="pb-2">
       <router-link to="/">
-        <button class="btn btn-xs btn-dark">Back</button>
+        <a class=""> &lt;&lt; Back to Home</a>
       </router-link>
     </div>
     <!-- overall detail of the picture -->
     <div class="row featurette">
       <div class="col-md-5">
-        <svg
-          class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto"
-          width="500"
-          height="500"
-          xmlns="http://www.w3.org/2000/svg"
-          role="img"
-          aria-label="Placeholder: 500x500"
-          preserveAspectRatio="xMidYMid slice"
-          focusable="false"
-        >
-          <title>Placeholder</title>
-          <rect width="100%" height="100%" fill="#eee"></rect>
-          <text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text>
-        </svg>
+        <img :src="'' + this.Gallery.url" style="width: 380px" />
       </div>
 
       <div class="col-md-7">
         <h1 class="featurette-heading">
-          *Picture name* <br /><span class="text-muted">By *artistname*</span>
+          {{ this.Gallery.artname }} <br /><span class="text-muted"
+            >Artist: {{ this.Gallery.artist }}</span
+          >
         </h1>
-        <p class="lead">*detail*</p>
+        <p>By: {{ this.Gallery.username }}</p>
+
+        <p class="lead">{{ this.Gallery.description }}</p>
       </div>
     </div>
     <hr class="featurette-divider" />
     <!-- show current bid -->
     <div>
-      <h6>current price: *current*</h6>
-      by : *username*
+      <h6>Current price: THB {{ this.Gallery.price }}</h6>
+      [ Bid by : {{ this.Gallery.bidder }} ]
     </div>
     <!-- show available coin & input amount of coin to bid -->
     <div class="d-flex align-items-end flex-column py-5" style="">
@@ -79,11 +70,26 @@
   </div>
 </template>
 <script>
+import firebase from "firebase";
 export default {
   name: "Bid",
   components: {},
   data() {
-    return {};
+    return {
+      Gallery: [],
+    };
+  },
+  mounted() {
+    const db = firebase.firestore();
+    console.log(this.$route.params.picID);
+    db.collection("auction")
+      .doc(this.$route.params.picID)
+      .get()
+      .then((snap) => {
+        const collections = snap.data();
+        this.Gallery = collections;
+        console.log(collections);
+      });
   },
 };
 </script>
