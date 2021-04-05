@@ -5,6 +5,7 @@
         <h2>Art Augtion</h2>
         <p>Login or register from here to access.</p>
       </div>
+    </div>
       <div class="main">
         <div class="col-md-6 col-sm-12">
           <div class="login-form">
@@ -31,15 +32,8 @@
               <button type="submit" class="btn btn-register">Register</button>
             </form>
           </div>
-          <div class="form-group">
-            <label>Password</label>
-            <input type="password" class="form-control" placeholder="Password" v-model="password" />
-          </div>
-          <button type="submit" class="btn btn-dark" @click.prevent="signIn()">Login</button>
-          <button type="submit" class="btn btn-secondary">Register</button>
         </div>
       </div>
-    </div>
   </div>
 </template>
 
