@@ -2,46 +2,22 @@
   <div>
     <!-- carousel -->
     <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
-      <ol class="carousel-indicators">
-        <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
-        <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
-      </ol>
       <div class="carousel-inner">
         <div class="carousel-item active">
-          <img src="https://picsum.photos/700/250/?random=1" class="d-block w-100" alt="pic1" />
-          <div class="carousel-caption d-none d-md-block">
-            <h3 class="display-4">Welcome</h3>
-          </div>
-        </div>
-        <div class="carousel-item">
-          <img src="https://picsum.photos/700/250/?random=2" class="d-block w-100" alt="pic2" />
-          <div class="carousel-caption d-none d-md-block">
-            <h3 class="display-4">Welcome</h3>
+          <img src="../assets/bg1.jpg" class="d-block w-100" style="height: 400px" alt="pic1" />
+          <div class="container">
+            <div class="carousel-caption text-start">
+              <h1>A r t . A u c t i o n</h1>
+              <p>w h e r e _ a r t _ c a n _ g r o w</p>
+              <p><a class="btn btn-lg btn-light" href="/signin">Register now</a></p>
+            </div>
           </div>
         </div>
       </div>
-      <a
-        class="carousel-control-prev"
-        href="#carouselExampleCaptions"
-        role="button"
-        data-slide="prev"
-      >
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-      </a>
-      <a
-        class="carousel-control-next"
-        href="#carouselExampleCaptions"
-        role="button"
-        data-slide="next"
-      >
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-      </a>
     </div>
     <br />
     <!-- card (show images & details) -->
-    <div class="container pt-5">
+    <div class="container py-5">
       <h4>This week:</h4>
       <div class="card-deck">
         <div class="ui centered cards">
@@ -61,8 +37,11 @@
               </div>
               <div class="description">{{ picture.pictureDetail }}</div>
             </div>
+            <!-- sent ID in order to bid -->
             <div class="card-footer">
               <p class="card-text">
+                <a href="/bid" class="btn btn-dark">Bid now</a>
+                <br />
                 <small class="text-muted">Close : {{ picture.closedate }}</small>
               </p>
             </div>
