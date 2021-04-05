@@ -69,7 +69,7 @@ body {
 
 .sidenav {
   height: 100%;
-  background-color: #000;
+  background-image: url("../assets/12180.jpg");
   overflow-x: hidden;
   padding-top: 20px;
 }

@@ -4,7 +4,7 @@
     <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
       <div class="carousel-inner">
         <div class="carousel-item active">
-          <img src="../assets/bg1.jpg" class="d-block w-100" style="height: 400px" alt="pic1" />
+          <img src="../assets/bg1.jpg" class="d-block w-100" style="height: 550px" alt="pic1" />
           <div class="container">
             <div class="carousel-caption text-start">
               <h1>A r t . A u c t i o n</h1>
