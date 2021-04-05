@@ -39,8 +39,16 @@
     </div>
     <!-- footer -->
     <footer class="footer mt-auto py-3 bg-light">
-      <div class="container">
-        <span class="text-muted">Place sticky footer content here.</span>
+      <div class="container ma-5">
+        <span class="text-muted">
+          <h4>Art.Action</h4>
+          By:
+          <ul>
+            <li>Phattharaporn Roekduangchan 6080727</li>
+            <li>Prapakorn Kangwannarakul 6080684</li>
+            <li>Santhisa Chen 6080779</li>
+          </ul>
+        </span>
       </div>
     </footer>
   </div>
