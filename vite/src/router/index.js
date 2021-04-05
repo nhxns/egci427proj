@@ -5,6 +5,7 @@ import Buy from "../components/Buy.vue";
 import Sell from "../components/Sell.vue";
 import Profile from "../components/Profiie.vue";
 import SignUp from "../components/signUp.vue";
+import Bid from "../components/Bidnow.vue";
 
 // import HelloWorld from '../views/HelloWorld.vue'
 
@@ -40,6 +41,11 @@ const routes = [
     path: "/signup",
     name: "signUp",
     component: SignUp,
+  },
+  {
+    path: "/bid",
+    name: "Bid",
+    component: Bid,
   },
 ];
 
