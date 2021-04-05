@@ -41,7 +41,7 @@
     </div>
     <br />
     <!-- card (show images & details) -->
-    <div class="pt-5">
+    <div class="container pt-5">
       <h4>This week:</h4>
       <div class="card-deck">
         <div class="ui centered cards">
@@ -157,8 +157,4 @@ export default {
 };
 </script>
 
-<style lang="">
-.ml {
-  margin-left: 15px;
-}
-</style>
+<style lang=""></style>

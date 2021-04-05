@@ -21,20 +21,20 @@
               <a class="nav-link active" aria-current="page" href="/">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="">Buy</a>
+              <a class="nav-link" href="/buy">Buy</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="">Sell</a>
+              <a class="nav-link" href="/sell">Sell</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="">Profile</a>
+              <a class="nav-link" href="/profile">Profile</a>
             </li>
           </ul>
         </div>
       </div>
     </nav>
     <!-- show content from each page -->
-    <div class="container pt-5">
+    <div class="">
       <router-view></router-view>
     </div>
     <!-- footer -->
