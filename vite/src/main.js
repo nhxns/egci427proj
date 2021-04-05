@@ -5,6 +5,7 @@ import firebase from "firebase";
 import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./index.css";
+let app
 
 var firebaseConfig = {
   apiKey: "AIzaSyAOzRYzvo7_2KIOc9pEg5wVubodR2-803I",
@@ -19,4 +20,10 @@ var firebaseConfig = {
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 firebase.analytics();
 export const db = firebaseApp.firestore();
-createApp(App).use(router).mount("#app");
+
+
+firebase.auth().onAuthStateChanged((user) => {
+  if(!app) {
+    app = createApp(App).use(router).mount('#app')
+  }
+})

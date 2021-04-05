@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container py-5">
     <div class="card-deck">
         <div class="ui centered cards">
           <div

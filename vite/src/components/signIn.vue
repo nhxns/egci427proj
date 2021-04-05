@@ -11,12 +11,12 @@
           <div class="login-form">
             <form>
               <div class="form-group">
-                <label>User Name</label>
+                <label>Email</label>
                 <input
                   type="text"
                   class="form-control"
-                  placeholder="User Name"
-                  v-model="username"
+                  placeholder="Email"
+                  v-model="formData.email"
                 />
               </div>
               <div class="form-group">
@@ -25,11 +25,11 @@
                   type="password"
                   class="form-control"
                   placeholder="Password"
-                  v-model="password"
+                  v-model="formData.password"
                 />
               </div>
-              <button type="submit" class="btn btn-black" @click.prevent="signIn()">Login</button>
-              <button type="submit" class="btn btn-register">Register</button>
+              <button type="submit" class="btn btn-login" @click.prevent="signIn()">Login</button>
+              <button type="submit" class="btn btn-register" @click.prevent="signUp()">Register</button>
             </form>
           </div>
         </div>
@@ -38,21 +38,35 @@
 </template>
 
 <script>
+import firebase from "firebase"
 export default {
   name: "SignIn",
   data() {
     return {
-      username: "",
-      password: "",
+      formData:{
+        email: "",
+        password: "",
+      }
     };
   },
   methods: {
     signIn() {
-      console.log(this.username, this.password);
-      if (this.username == "admin" && this.password == "admin") {
-        window.location.href = "/";
-      }
+      firebase
+        .auth()
+        .signInWithEmailAndPassword(
+          this.formData.email,
+          this.formData.password
+        )
+        .then(user => {
+          this.$router.replace("/home")
+        })
+        .catch( error => {
+          console.log(error.message)
+        })
     },
+    signUp(){
+      window.location.href = "/signup"
+    }
   },
 };
 </script>
@@ -126,7 +140,7 @@ body {
   font-weight: 300;
 }
 
-.btn-black {
+.btn-login {
   background-color: black;
   color: white;
 }
