@@ -44,7 +44,7 @@
     <div class="pt-5">
       <h4>This week:</h4>
       <div class="card-deck">
-        <div class="ui cards">
+        <div class="ui centered cards">
           <div
             class="ui card"
             style="min-width: 15rem; max-width: 15rem"
