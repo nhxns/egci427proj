@@ -18,7 +18,7 @@
                      <input type="password" class="form-control" placeholder="Password" v-model="password">
                   </div>
                   <button type="submit" class="btn btn-black" @click.prevent="signIn()">Login</button>
-                  <button type="submit" class="btn btn-secondary">Register</button>
+                  <button type="submit" class="btn btn-register">Register</button>
                </form>
             </div>
          </div>
@@ -118,7 +118,12 @@ body {
 }
 
 .btn-black{
-    background-color: #000 !important;
-    color: #fff;
+    background-color: black;
+    color: white;
+}
+
+.btn-register{
+    background-color: black;
+    color: white;
 }
 </style>
