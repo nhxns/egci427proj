@@ -82,15 +82,35 @@
           </div>
         </div>
       </main>
+      <!-- <ul>
+        <li :key="item.key" v-for="item in collections">{{ item.url }}</li>
+      </ul> -->
     </div>
   </div>
 </template>
 <script>
+import firebase from "firebase";
 export default {
   name: "Home",
   components: {},
   data() {
-    return {};
+    return {
+      collections: [],
+    };
+  },
+  mounted() {
+    const db = firebase.firestore();
+
+    db.collection("auction")
+      .get()
+      .then((snap) => {
+        const collections = [];
+        snap.forEach((doc) => {
+          collections.push(doc.data());
+        });
+        this.collections = collections;
+        console.log(collections);
+      });
   },
 };
 </script>

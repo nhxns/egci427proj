@@ -28,21 +28,21 @@
             :key="index"
           >
             <div class="image">
-              <img :src="'' + picture.pictureURL" />
+              <img :src="'' + picture.url" />
             </div>
             <div class="content">
-              <a class="header">{{ picture.pictureName }}</a>
+              <a class="header">{{ picture.artname }}</a>
               <div class="meta">
-                {{ picture.username }}
+                {{ picture.owner }}
               </div>
-              <div class="description">{{ picture.pictureDetail }}</div>
+              <div class="description">{{ picture.description }}</div>
             </div>
             <!-- sent ID in order to bid -->
             <div class="card-footer">
               <p class="card-text">
                 <a href="/bid" class="btn btn-dark">Bid now</a>
                 <br />
-                <small class="text-muted">Close : {{ picture.closedate }}</small>
+                <small class="text-muted">Close : {{ picture.timeclose }}</small>
               </p>
             </div>
           </div>
@@ -52,86 +52,28 @@
   </div>
 </template>
 <script>
+import firebase from "firebase";
 export default {
   name: "Home",
   components: {},
   data() {
     return {
-      Gallery: [
-        {
-          firstname: "Elyse",
-          lastname: "Emma",
-          username: "@handsomeelyse",
-          pictureName: "",
-          pictureURL: "https://semantic-ui.com/images/avatar2/large/elyse.png",
-          pictureDetail: "I cut my hair 'cus you don't care my heart",
-          startprice: 100,
-          currentprice: 100,
-          closedate: "01/01/2028, 16:00PM",
-          status: "available",
-        },
-        {
-          firstname: "Molly",
-          lastname: "May",
-          pictureName: "",
-          username: "@longhairbutdontcare",
-          pictureURL: "https://semantic-ui.com/images/avatar2/large/molly.png",
-          pictureDetail: "please ignore my username",
-          startprice: 100,
-          currentprice: 100,
-          closedate: "01/01/2028, 16:00PM",
-          status: "available",
-        },
-        {
-          firstname: "Matthew",
-          lastname: "Brew",
-          username: "@madmatthew",
-          pictureName: "",
-          pictureURL: "https://semantic-ui.com/images/avatar2/large/matthew.png",
-          pictureDetail: "I'm not mad'",
-          startprice: 100,
-          currentprice: 100,
-          closedate: "01/01/2028, 16:00PM",
-          status: "available",
-        },
-        {
-          firstname: "Kristy",
-          lastname: "Cream",
-          username: "@ilovedonut",
-          pictureName: "",
-          pictureURL: "https://semantic-ui.com/images/avatar2/large/kristy.png",
-          pictureDetail: "not Krispy Kreme but Kristy Cream",
-          startprice: 100,
-          currentprice: 100,
-          closedate: "01/01/2028, 16:00PM",
-          status: "available",
-        },
-        {
-          firstname: "XXX",
-          lastname: "XXX",
-          username: "@handsomeelyse",
-          pictureName: "",
-          pictureURL: "https://semantic-ui.com/images/avatar2/large/matthew.png",
-          pictureDetail: "I cut my hair 'cus you don't care my heart",
-          startprice: 100,
-          currentprice: 100,
-          closedate: "01/01/2028, 16:00PM",
-          status: "available",
-        },
-        {
-          firstname: "XXX",
-          lastname: "XXX",
-          username: "@handsomeelyse",
-          pictureName: "",
-          pictureURL: "https://semantic-ui.com/images/avatar2/large/kristy.png",
-          pictureDetail: "I cut my hair 'cus you don't care my heart",
-          startprice: 100,
-          currentprice: 100,
-          closedate: "01/01/2028, 16:00PM",
-          status: "available",
-        },
-      ],
+      Gallery: [],
     };
+  },
+  mounted() {
+    const db = firebase.firestore();
+
+    db.collection("auction")
+      .get()
+      .then((snap) => {
+        const collections = [];
+        snap.forEach((doc) => {
+          collections.push(doc.data());
+        });
+        this.Gallery = collections;
+        console.log(collections);
+      });
   },
 };
 </script>

@@ -3,7 +3,7 @@ import Home from "../components/Home.vue";
 import SignIn from "../components/signIn.vue";
 import Buy from "../components/Buy.vue";
 import Sell from "../components/Sell.vue";
-import Profile from "../components/Profiie.vue";
+import Profile from "../components/Profile.vue";
 import SignUp from "../components/signUp.vue";
 import Bid from "../components/Bidnow.vue";
 
