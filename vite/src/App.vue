@@ -21,13 +21,13 @@
               <a class="nav-link active" aria-current="page" href="/">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/buy">Buy</a>
+              <a class="nav-link active" href="/buy">Buy</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/sell">Sell</a>
+              <a class="nav-link active" href="/sell">Sell</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/profile">Profile</a>
+              <a class="nav-link active" href="/profile">Profile</a>
             </li>
           </ul>
         </div>
