@@ -1,11 +1,32 @@
 <template>
-  <div>
-    <div class="card" style="width: 18rem;" v-for="products in art_products" :key="products.id">
-      <img class="card-img-top" src="../assets/12180.jpg" alt="Card image cap">
-      <div class="card-body">
-        <h5 class="card-title">{{products.title}}</h5>
-        <p class="card-text">{{ products.content }}</p>
-      </div>
+  <div class="container">
+    <div class="card-deck">
+        <div class="ui centered cards">
+          <div
+            class="ui card"
+            style="min-width: 15rem; max-width: 40rem"
+            v-for="product in art_products"
+            :key="product.id"
+          >
+            <div class="image">
+              <img src="../assets/12180.jpg">
+            </div>
+            <div class="content">
+              <a class="header">{{ product.title }}</a>
+              <div class="meta">
+                {{ product.content }}
+              </div>
+              <div class="description">{{ product.content }}</div>
+            </div>
+            <!-- sent ID in order to bid -->
+            <div class="card-footer">
+              <p class="card-text">
+                <a href="/" class="btn btn-dark">test</a>
+                <br />
+              </p>
+            </div>
+          </div>
+        </div>
     </div>
   </div>
 </template>
