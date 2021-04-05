@@ -18,7 +18,7 @@
     <br />
     <!-- card (show images & details) -->
     <div class="container py-5">
-      <h4>This week:</h4>
+      <h4>Today:</h4>
       <div class="card-deck">
         <div class="ui centered cards">
           <div
@@ -46,12 +46,19 @@
                   :to="{ path: 'bid', name: 'Bid', params: { picID: picture.id } }"
                   append
                 >
-                  <button class="btn btn-xs btn-dark">Bid now</button>&nbsp;
+                  <button class="btn btn-xs btn-dark" v-if="picture.status != 'sold'">
+                    Bid now
+                  </button>
+                  <button class="btn btn-xs btn-dark" v-if="picture.status == 'sold'" disabled>
+                    Bid now</button
+                  >&nbsp;
                 </router-link>
 
                 <br />
                 <small class="text-muted"
-                  >Close : {{ Date(picture.timeclose.seconds).toLocaleString("en-US") }}</small
+                  >{{ picture.status == "sold" ? "Sold Out" : "Day(s) until close bid:" }}
+
+                  {{ CompareDate(picture.timeclose.seconds * 1000, picture.status) }}</small
                 >
               </p>
             </div>
@@ -60,10 +67,13 @@
       </div>
     </div>
   </div>
+  <!-- Close in : {{ new Date(picture.timeclose.seconds * 1000).toLocaleString()
+                  }}<br />
+                  {{ new Date().toLocaleString() }}<br
+                /> -->
 </template>
 <script>
 import firebase from "firebase";
-// import moment from "moment";
 export default {
   name: "Home",
   components: {},
@@ -86,12 +96,28 @@ export default {
         console.log(collections);
       });
   },
-  // methods: {
-  //   dateFormat(unix) {
-  //     const unixDate = new Date(unix.seconds);
-  //     return moment(String(unixDate)).format("MM/DD/YYYY hh:mm");
-  //   },
-  // },
+  methods: {
+    CompareDate(date, status) {
+      if (status != "sold") {
+        const current = new Date();
+        const closedate = new Date(date);
+
+        var currentd = current.getDate();
+        var currentH = current.getHours();
+        var currentMin = current.getMinutes();
+
+        var closed = closedate.getDate();
+        var closeH = closedate.getHours();
+        var closeMin = closedate.getMinutes();
+
+        var remaind = closed - currentd;
+        var remainH = closeH - currentH;
+        var remainMin = closeMin - currentMin;
+
+        return remaind + " days " + remainH + " hours " + remainMin + " minutes";
+      }
+    },
+  },
 };
 </script>
 
