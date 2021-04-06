@@ -6,6 +6,7 @@ import Sell from "../components/Sell.vue";
 import Profile from "../components/Profile.vue";
 import SignUp from "../components/signUp.vue";
 import Bid from "../components/Bidnow.vue";
+import Product from "../components/product.vue"
 import firebase from "firebase"
 
 // import HelloWorld from '../views/HelloWorld.vue'
@@ -75,8 +76,16 @@ const routes = [
     component: Bid,
     meta:{
       requiresAuth: true
-    }
+    },
   },
+  {
+    path: "/product/:productId",
+    name: "Product",
+    component: Product,
+    meta: {
+      requiresAuth: true
+    }
+  }
 ];
 
 const router = createRouter({
