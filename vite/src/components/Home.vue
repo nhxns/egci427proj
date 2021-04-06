@@ -58,6 +58,8 @@
                 <small class="text-muted"
                   >{{ picture.status == "sold" ? "Sold Out" : "Day(s) until close bid:" }}
 
+                  <!-- {{picture.timeclose.seconds}} -->
+
                   {{ CompareDate(picture.timeclose.seconds * 1000, picture.status) }}</small
                 >
               </p>
@@ -113,10 +115,32 @@ export default {
         var remaind = closed - currentd;
         var remainH = closeH - currentH;
         var remainMin = closeMin - currentMin;
+        if(remainMin<0){
+
+          remainH=remainH-1
+          remainMin=60+remainMin
+
+        }
+
+        if(remainH<0){
+
+          remaind=remaind-1
+          remainH=24+remainH
+
+        }
 
         return remaind + " days " + remainH + " hours " + remainMin + " minutes";
+        // return current + closedate
       }
     },
+
+    // checksold(){
+
+    //   const 
+
+
+    // }
+
   },
 };
 </script>
