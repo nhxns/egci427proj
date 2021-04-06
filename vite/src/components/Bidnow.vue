@@ -154,6 +154,8 @@ export default {
     bid(val) {
       this.coin = val;
     },
+
+    //this is the update of the values in firebase
     updateCoin(price) {
       const db = firebase.firestore();
 
