@@ -52,6 +52,7 @@ export default {
         password: "",
         email: "",
         firstname: "",
+        coin:"",
       }
     };
   },
@@ -67,7 +68,8 @@ export default {
           const data = {
             email: res.user.email,
             username: this.formData.username,
-            firstname: this.formData.firstname
+            firstname: this.formData.firstname,
+            coin: 0
           }
           const db = firebase.firestore()
           await db.collection('user').doc(res.user.uid).set(data)
