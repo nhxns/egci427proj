@@ -16,62 +16,62 @@ const routerHistory = createWebHistory();
 const routes = [
   {
     path: "/",
-    redirect: "/home"
+    redirect: "/home",
   },
   {
     path: "/:catchAll(.*)",
-    redirect: "/home"
+    redirect: "/home",
   },
   {
     path: "/home",
     name: "Home",
     component: Home,
-    meta:{
-      AuthAndUnauth: true
-    }
+    meta: {
+      AuthAndUnauth: true,
+    },
   },
   {
     path: "/signin",
     name: "signIn",
     component: SignIn,
-    meta:{
-      requiresAuth: false
-    }
+    meta: {
+      requiresAuth: false,
+    },
   },
   {
     path: "/buy",
     name: "Buy",
     component: Buy,
-    meta:{
-      AuthAndUnauth: true
-    }
+    meta: {
+      AuthAndUnauth: true,
+    },
   },
   {
     path: "/sell",
     name: "Sell",
     component: Sell,
-    meta:{
-      requiresAuth: true
-    }
-  }, 
+    meta: {
+      requiresAuth: true,
+    },
+  },
   {
     path: "/profile",
     name: "Profile",
     component: Profile,
-    meta:{
-      requiresAuth: true
-    }
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/signup",
     name: "signUp",
     component: SignUp,
-    meta:{
-      requiresAuth: false
-    }
+    meta: {
+      requiresAuth: false,
+    },
   },
   {
-    path: "/bid",
+    path: "/bid/:picID",
     name: "Bid",
     component: Bid,
     meta:{
@@ -94,26 +94,24 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-
   // Keep current user
-  const currentUser = firebase.auth().currentUser
+  const currentUser = firebase.auth().currentUser;
 
-
-  const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
-  const AuthAndUnauth = to.matched.some(record => record.meta.AuthAndUnauth)
+  const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
+  const AuthAndUnauth = to.matched.some((record) => record.meta.AuthAndUnauth);
 
   //condition that every user can access without signin
-  if(AuthAndUnauth){
-    console.log("Every one can access to this area")
-    next()
+  if (AuthAndUnauth) {
+    console.log("Every one can access to this area");
+    next();
   }
-  if(!requiresAuth && currentUser){
-      next('home')
+  if (!requiresAuth && currentUser) {
+    next("home");
   }
-  if(requiresAuth && !currentUser){
-    next('signin')
+  if (requiresAuth && !currentUser) {
+    next("signin");
   }
-  next()
+  next();
   // if (requiresAuth && !currentUser) {
   //   console.log("You are not authorized to access this area.");
   //   next('signin')
@@ -123,6 +121,6 @@ router.beforeEach((to, from, next) => {
   // } else {
   //   next()
   // }
-})
+});
 
 export default router;

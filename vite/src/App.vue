@@ -58,22 +58,24 @@
 </template>
 
 <script>
-import firebase from "firebase"
+import firebase from "firebase";
 export default {
   name: "App",
   components: {},
-  methods:{
+  methods: {
     logout() {
-        firebase.auth().signOut()
-          .then(()=> {
-            this.$router.replace('/home')
-            console.log("signout")
-          })
-          .catch( error => {
-              console.log(error.message)
-          })
-    }
-  }
+      firebase
+        .auth()
+        .signOut()
+        .then(() => {
+          this.$router.replace("/home");
+          console.log("signout");
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
+    },
+  },
 };
 </script>
 

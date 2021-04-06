@@ -1,6 +1,11 @@
 <template>
   <div class="container py-5">
-    <div class="card-deck">
+    <div v-if="loading" class="d-flex justify-content-center">
+      <div class="spinner-border" style="width: 8rem; height: 8rem" role="status">
+        <span class="visually-hidden"></span>
+      </div>
+    </div>
+    <div v-else class="card-deck">
       <div class="ui cards">
         <div
           class="ui card"
@@ -50,11 +55,13 @@ export default {
   components: {},
   data() {
     return {
+      loading: true,
       art_products: [],
     };
   },
   mounted() {
     const db = firebase.firestore();
+    this.loading = true;
 
     db.collection("product")
       .get()
@@ -64,6 +71,7 @@ export default {
           collections.push({ id: doc.id, ...doc.data() });
         });
         this.art_products = collections;
+        this.loading = false;
         console.log(collections);
       });
   },
