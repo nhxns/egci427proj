@@ -64,30 +64,18 @@ export default {
   components: {},
   methods: {
     logout() {
-<<<<<<< Updated upstream
-        firebase.auth().signOut()
-          .then(()=> {
-            this.$router.replace('/home')
-            console.log("signout")
-          })
-          .catch( error => {
-              console.log(error.message)
-          })
-    }
-  }
-=======
       firebase
         .auth()
         .signOut()
         .then(() => {
-          this.$router.replace("/signin");
+          this.$router.replace("/home");
+          console.log("signout");
         })
         .catch((error) => {
           console.log(error.message);
         });
     },
   },
->>>>>>> Stashed changes
 };
 </script>
 
