@@ -7,11 +7,11 @@
     </div>
     <!-- overall detail of the picture -->
     <div class="row featurette">
-      <div class="col-6 col-sm-10 col-md-7" align="center">
+      <div class="col-md-5">
         <img :src="'' + this.Gallery.url" style="width: 380px" />
       </div>
 
-      <div class="col-8 col-sm-10 col-md-4">
+      <div class="col-md-7">
         <h1 class="featurette-heading">
           {{ this.Gallery.artname }} <br /><span class="text-muted"
             >Artist: {{ this.Gallery.artist }}</span
@@ -73,7 +73,7 @@
                 type="button"
                 class="btn btn-success"
                 data-dismiss="modal"
-                @click.prevent="updateCoin()"
+                @click.prevent="updateCoin(this.bidprice)"
               >
                 Yes
               </button>
@@ -127,7 +127,6 @@ export default {
     this.getPicData();
   },
   methods: {
-    //get userinfo
     getUserInfo() {
       const db = firebase.firestore();
       db.collection("user")
@@ -140,7 +139,6 @@ export default {
           console.log(UserInfo);
         });
     },
-    //get pictureinfo
     getPicData() {
       const db = firebase.firestore();
       console.log(this.$route.params.picID);
@@ -156,9 +154,12 @@ export default {
     bid(val) {
       this.coin = val;
     },
-    //update coin
-    updateCoin() {
-      const db = firebase.firestore();
+    updateCoin(price) {
+
+           const db = firebase.firestore();
+
+if(price<this.UserInfo.coin){
+
       db.collection("auction")
         .doc(this.$route.params.picID)
         .update("price", this.coin)
@@ -172,8 +173,12 @@ export default {
         .then(() => {
           window.location.reload();
         });
+
+        db.collection("user").doc(firebase.auth().currentUser.uid).update("coin", firebase.firestore.FieldValue.increment(-price))
+
+}
+
     },
-    updateArtwork() {},
   },
 };
 </script>
