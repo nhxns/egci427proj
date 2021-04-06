@@ -11,8 +11,8 @@
       <!-- show Profile after data is loaded -->
       <div v-else class="p-5 mb-4 bg-light rounded-3">
         <div class="container-fluid py-5">
-          <h1 class="display-5 fw-bold">Profile</h1>
-          <br />
+          <h1 class="display-5 fw-bold">P r o f i l e</h1>
+
           <div class="row align-items-start">
             <div class="col-4 col-sm-3"><h6>Username :</h6></div>
             <div class="col-4 col-sm-3">{{ UserInfo.username }}</div>
