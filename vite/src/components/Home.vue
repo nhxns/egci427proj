@@ -19,7 +19,12 @@
     <!-- card (show images & details) -->
     <div class="container py-5">
       <h4>Today:</h4>
-      <div class="card-deck">
+      <div v-if="loading" class="d-flex justify-content-center">
+        <div class="spinner-border" style="width: 8rem; height: 8rem" role="status">
+          <span class="visually-hidden"></span>
+        </div>
+      </div>
+      <div v-else class="card-deck">
         <div class="ui centered cards">
           <div
             class="ui card"
@@ -27,7 +32,6 @@
             v-for="(picture, index) in Gallery"
             :key="index"
           >
-          
             <div class="image">
               <div class="full-img">
                 <img :src="'' + picture.url" style="align: center" width="" />
@@ -78,19 +82,21 @@ export default {
   components: {},
   data() {
     return {
+      loading: true,
       Gallery: [],
     };
   },
 
-//   create(){
+  //   create(){
 
-// const db = firebase.firestore();
+  // const db = firebase.firestore();
 
-//   },
+  //   },
 
   mounted() {
     //get data from firestore collection("auction")
     const db = firebase.firestore();
+    this.loading = true;
 
     db.collection("auction")
       .get()
@@ -100,20 +106,16 @@ export default {
           collections.push({ id: doc.id, ...doc.data() });
         });
         this.Gallery = collections;
-
+        this.loading = false;
         console.log(this.Gallery);
 
-        this.Gallery.forEach((picture)=>{
-if(this.CompareDated(picture.timeclose.seconds * 1000)){
-         console.log(picture.id)
-         this.checksold(picture.id)
-}
-
-
-        })
-
+        this.Gallery.forEach((picture) => {
+          if (this.CompareDated(picture.timeclose.seconds * 1000)) {
+            console.log(picture.id);
+            this.checksold(picture.id);
+          }
+        });
       });
-
   },
   methods: {
     //calculate time left (until close auction)
@@ -133,52 +135,34 @@ if(this.CompareDated(picture.timeclose.seconds * 1000)){
         var remaind = closed - currentd;
         var remainH = closeH - currentH;
         var remainMin = closeMin - currentMin;
-        if(remainMin<0){
-
-          remainH=remainH-1
-          remainMin=60+remainMin
-
+        if (remainMin < 0) {
+          remainH = remainH - 1;
+          remainMin = 60 + remainMin;
         }
 
-        if(remainH<0){
-
-          remaind=remaind-1
-          remainH=24+remainH
-
+        if (remainH < 0) {
+          remaind = remaind - 1;
+          remainH = 24 + remainH;
         }
 
         return remaind + " days " + remainH + " hours " + remainMin + " minutes";
         // return current + closedate
       }
-
-
-
     },
 
+    CompareDated(date) {
+      const current = new Date().getTime();
 
+      var diff = date - current;
 
-        CompareDated(date) {
-      
-        const current = new Date().getTime();
-
-
-        var diff = date-current
-
-
-
-        return  diff<0;
-
+      return diff < 0;
     },
 
-    
+    checksold(idin) {
+      const db = firebase.firestore();
 
-    checksold(idin){
-
-    const db = firebase.firestore();
-
-      db.collection("auction").doc(idin).update("status","sold")
-
-    }
+      db.collection("auction").doc(idin).update("status", "sold");
+    },
   },
 };
 </script>
