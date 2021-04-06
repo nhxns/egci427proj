@@ -31,6 +31,13 @@
               <button type="submit" class="btn btn-login" @click.prevent="signIn()">Login</button>
               <button type="submit" class="btn btn-register" @click.prevent="signUp()">Register</button>
               <button type="submit" class="btn btn-register" @click.prevent="back()">Back</button>
+
+              <div class="ui negative message" v-show="signInStatus">
+                <i class="close icon"></i>
+                <div>
+                    Try again! Incorrect Username and Password.
+                </div>
+            </div>
             </form>
           </div>
         </div>
@@ -47,7 +54,8 @@ export default {
       formData:{
         email: "",
         password: "",
-      }
+      },
+      signInStatus: false
     };
   },
   methods: {
