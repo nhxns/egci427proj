@@ -5,6 +5,8 @@
         <span class="visually-hidden"></span>
       </div>
     </div>
+
+    <!-- The part that show every artwork in the database by using v-for in card -->
     <div v-else class="card-deck">
       <div class="ui centered cards">
         <div
@@ -24,7 +26,7 @@
             <div class="artist"><b>Artist:</b> {{ product.artist }}</div>
             <div class="price"><b>Price:</b> {{product.price}}</div>
           </div>
-          <!-- sent ID in order to bid -->
+          <!-- sent productId by using button in order to give productId in product page -->
           <div class="card-footer">
             <p class="card-text">
               <router-link :to="{path: 'product', name: 'Product', params: {productId: product.id} }">
@@ -57,6 +59,7 @@ export default {
       art_products: [],
     };
   },
+  // mounted every products data in the firebase firestore
   mounted() {
     const db = firebase.firestore();
     this.loading = true;
@@ -73,9 +76,6 @@ export default {
         console.log(collections);
       });
   },
-  methods:{
-
-  }
 };
 </script>
 

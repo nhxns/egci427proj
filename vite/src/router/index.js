@@ -105,22 +105,15 @@ router.beforeEach((to, from, next) => {
     console.log("Every one can access to this area");
     next();
   }
+  // condition that user already sign in and want to access to the page without authentication
   if (!requiresAuth && currentUser) {
     next("home");
   }
+  // condition that user want to access to the page with an authentication but did not sign in yet
   if (requiresAuth && !currentUser) {
     next("signin");
   }
   next();
-  // if (requiresAuth && !currentUser) {
-  //   console.log("You are not authorized to access this area.");
-  //   next('signin')
-  // } else if (!requiresAuth && currentUser) {
-  //   console.log("You are authorized to access this area.");
-  //   next('')
-  // } else {
-  //   next()
-  // }
 });
 
 export default router;

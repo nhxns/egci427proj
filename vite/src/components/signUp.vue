@@ -1,11 +1,13 @@
 <template>
   <div>
+  <!-- left side navbar -->
     <div class="sidenav">
       <div class="login-main-text">
         <h2>Art Augtion</h2>
         <p>Register</p>
       </div>
     </div>
+    <!-- form for user to fill in the information in order to register -->
     <div class="main">
       <div class="col-md-6 col-sm-12">
         <div class="login-form">
@@ -57,6 +59,7 @@ export default {
     };
   },
   methods: {
+    // function to create the new user in firebase authentication
     register() {
       firebase
         .auth()
@@ -82,6 +85,7 @@ export default {
           console.log(error.message)
         })
     },
+    // relocation to sign in page
     backToSignIn(){
       window.location.href = "/signin"
     }

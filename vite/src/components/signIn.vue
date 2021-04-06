@@ -1,11 +1,13 @@
 <template>
   <div>
+  <!-- left side navbar -->
     <div class="sidenav">
       <div class="login-main-text">
         <h2>Art Augtion</h2>
         <p>Login or register from here to access.</p>
       </div>
     </div>
+    <!-- form for user to access the email and password -->
       <div class="main">
         <div class="col-md-6 col-sm-12">
           <div class="login-form">
@@ -31,13 +33,8 @@
               <button type="submit" class="btn btn-login" @click.prevent="signIn()">Login</button>
               <button type="submit" class="btn btn-register" @click.prevent="signUp()">Register</button>
               <button type="submit" class="btn btn-register" @click.prevent="back()">Back</button>
+              
 
-              <div class="ui negative message" v-show="signInStatus">
-                <i class="close icon"></i>
-                <div>
-                    Try again! Incorrect Username and Password.
-                </div>
-            </div>
             </form>
           </div>
         </div>
@@ -55,10 +52,10 @@ export default {
         email: "",
         password: "",
       },
-      signInStatus: false
     };
   },
   methods: {
+    // function that will check the existed user authentication in the firebase authentication
     signIn() {
       firebase
         .auth()
@@ -73,9 +70,11 @@ export default {
           console.log(error.message)
         })
     },
+    // function to redirect to the signup page
     signUp(){
       window.location.href = "/signup"
     },
+    // function to redirect to the home page
     back(){
       window.location.href = "/home"
     }

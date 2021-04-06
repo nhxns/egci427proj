@@ -1,11 +1,12 @@
 <template>
+<!-- link to the buy page -->
   <div class="container mt-5">
     <div class="pb-2">
       <router-link to="/buy">
         <a class="dark"> Others Artwork</a>
       </router-link>
     </div>
-    <!-- overall detail of the picture -->
+    <!-- overall detail of the artwork -->
     <div class="row featurette">
       <div class="col-md-5">
         <img :src="'' + this.art_product.url" style="width: 380px" />
@@ -22,7 +23,7 @@
         <p class="lead">{{ this.art_product.description }}</p>
 
         <h2><span class="text-muted">Price: {{ this.art_product.price }} coins</span></h2>
-
+        <!-- user detail, button to buy and current user coin -->
         <div class="d-flex align-items-end flex-column py-5" style="">
       <div class="">{{ UserInfo.username }}</div>
       <div class="d-flex justify-content-end">
@@ -41,7 +42,7 @@
     <hr class="featurette-divider" />
     
 
-    <!-- confirmation -->
+    <!-- confirmation part before the user buys the artwork -->
     <div
       class="modal fade bd-example-modal-sm"
       id="myModal"
@@ -67,7 +68,7 @@
                 type="button"
                 class="btn btn-success"
                 data-dismiss="modal"
-                @click.prevent="updateCoin(), updateArtwork()"
+                @click.prevent="updateCoin(this.art_product.price), updateArtwork()"
               >
                 Yes
               </button>
@@ -75,31 +76,6 @@
         </div>
       </div>
     </div>
-    <!-- if input bid less than current bid => show error -->
-    <!-- <div
-      v-else
-      class="modal fade bd-example-modal-sm"
-      id="myModal"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title" id="exampleModalLabel">Error!</h1>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">You should bid more than {{ this.Gallery.price }} coins.</div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          </div>
-        </div>
-      </div>
-    </div> -->
   </div>
 </template>
 <script>
@@ -119,6 +95,7 @@ export default {
     this.getProductData();
   },
   methods: {
+    // function to get the current user
     getUserInfo() {
       const db = firebase.firestore();
       db.collection("user")
@@ -131,6 +108,7 @@ export default {
           console.log(UserInfo);
         });
     },
+    // function to get the selected artwork
     getProductData() {
       const db = firebase.firestore();
       console.log(this.$route.params.productId);
@@ -143,18 +121,17 @@ export default {
           console.log(collections);
         });
     },
-    bid(val) {
-      this.coin = val;
-    },
-    updateCoin() {
+    // function to update the coin of each user after they buy an artwork
+    updateCoin(price) {
       const db = firebase.firestore();
       db.collection("user")
         .doc(firebase.auth().currentUser.uid)
-        .update("coin", firebase.firestore.FieldValue.increment(-this.coin))
+        .update("coin", firebase.firestore.FieldValue.increment(-price))
         .then(() => {
           window.location.href = "/buy";
         });
     },
+    // function to update the artwork to be sold after user buy it already
     updateArtwork() {
         const db = firebase.firestore();
         db.collection("product")

@@ -1,7 +1,12 @@
 <template>
-  <div>
+  <div v-if="$route.path==='/signin' || $route.path === '/signup'">
+    <div>
+      <router-view></router-view>
+    </div>
+  </div>
+  <div v-else>
     <!-- navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" >
       <div class="container-fluid">
         <a class="navbar-brand" href="/home">Art.Auction</a>
         <button
