@@ -19,14 +19,12 @@
     <!-- card (show images & details) -->
     <div class="container py-5">
       <h4>Today:</h4>
-
       <div v-if="loading" class="d-flex justify-content-center">
         <div class="spinner-border" style="width: 8rem; height: 8rem" role="status">
           <span class="visually-hidden"></span>
         </div>
       </div>
-
-      <div class="card-deck">
+      <div v-else class="card-deck">
         <div class="ui centered cards">
           <div
             class="ui card"
@@ -84,10 +82,17 @@ export default {
   components: {},
   data() {
     return {
-      Gallery: [],
       loading: true,
+      Gallery: [],
     };
   },
+
+  //   create(){
+
+  // const db = firebase.firestore();
+
+  //   },
+
   mounted() {
     //get data from firestore collection("auction")
     const db = firebase.firestore();
@@ -96,13 +101,20 @@ export default {
     db.collection("auction")
       .get()
       .then((snap) => {
-        const collections = [];
+        var collections = [];
         snap.forEach((doc) => {
           collections.push({ id: doc.id, ...doc.data() });
         });
         this.Gallery = collections;
         this.loading = false;
-        console.log(collections);
+        console.log(this.Gallery);
+
+        this.Gallery.forEach((picture) => {
+          if (this.CompareDated(picture.timeclose.seconds * 1000)) {
+            console.log(picture.id);
+            this.checksold(picture.id);
+          }
+        });
       });
   },
   methods: {
@@ -137,12 +149,20 @@ export default {
         // return current + closedate
       }
     },
+//this is to check which piece is over the set period of auction
+    CompareDated(date) {
+      const current = new Date().getTime();
 
-    // checksold(){
+      var diff = date - current;
 
-    //   const
+      return diff < 0;
+    },
+// command that chage the pieces to sold
+    checksold(idin) {
+      const db = firebase.firestore();
 
-    // }
+      db.collection("auction").doc(idin).update("status", "sold");
+    },
   },
 };
 </script>

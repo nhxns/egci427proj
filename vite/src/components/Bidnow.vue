@@ -73,7 +73,7 @@
                 type="button"
                 class="btn btn-success"
                 data-dismiss="modal"
-                @click.prevent="updateCoin()"
+                @click.prevent="updateCoin(this.bidprice)"
               >
                 Yes
               </button>
@@ -127,7 +127,6 @@ export default {
     this.getPicData();
   },
   methods: {
-    //get userinfo
     getUserInfo() {
       const db = firebase.firestore();
       db.collection("user")
@@ -140,7 +139,6 @@ export default {
           console.log(UserInfo);
         });
     },
-    //get pictureinfo
     getPicData() {
       const db = firebase.firestore();
       console.log(this.$route.params.picID);
@@ -156,24 +154,29 @@ export default {
     bid(val) {
       this.coin = val;
     },
-    //update coin
-    updateCoin() {
+    updateCoin(price) {
       const db = firebase.firestore();
-      db.collection("auction")
-        .doc(this.$route.params.picID)
-        .update("price", this.coin)
-        .then(() => {
-          window.location.reload();
-        });
 
-      db.collection("auction")
-        .doc(this.$route.params.picID)
-        .update("bidder", this.UserInfo.username)
-        .then(() => {
-          window.location.reload();
-        });
+      if (price < this.UserInfo.coin) {
+        db.collection("auction")
+          .doc(this.$route.params.picID)
+          .update("price", this.coin)
+          .then(() => {
+            window.location.reload();
+          });
+
+        db.collection("auction")
+          .doc(this.$route.params.picID)
+          .update("bidder", this.UserInfo.username)
+          .then(() => {
+            window.location.reload();
+          });
+
+        db.collection("user")
+          .doc(firebase.auth().currentUser.uid)
+          .update("coin", firebase.firestore.FieldValue.increment(-price));
+      }
     },
-    updateArtwork() {},
   },
 };
 </script>
