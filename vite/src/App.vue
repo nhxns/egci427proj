@@ -58,12 +58,13 @@
 </template>
 
 <script>
-import firebase from "firebase"
+import firebase from "firebase";
 export default {
   name: "App",
   components: {},
-  methods:{
+  methods: {
     logout() {
+<<<<<<< Updated upstream
         firebase.auth().signOut()
           .then(()=> {
             this.$router.replace('/home')
@@ -74,6 +75,19 @@ export default {
           })
     }
   }
+=======
+      firebase
+        .auth()
+        .signOut()
+        .then(() => {
+          this.$router.replace("/signin");
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
+    },
+  },
+>>>>>>> Stashed changes
 };
 </script>
 
