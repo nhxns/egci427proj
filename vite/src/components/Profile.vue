@@ -14,21 +14,21 @@
           <h1 class="display-5 fw-bold">Profile</h1>
           <br />
           <div class="row align-items-start">
-            <div class="col-3"><h6>Username :</h6></div>
-            <div class="col">{{ UserInfo.username }}</div>
+            <div class="col-4 col-sm-3"><h6>Username :</h6></div>
+            <div class="col-4 col-sm-3">{{ UserInfo.username }}</div>
           </div>
           <div class="row align-items-start">
-            <div class="col-3"><h6>Firstname :</h6></div>
-            <div class="col">{{ UserInfo.firstname }}</div>
+            <div class="col-4 col-sm-3"><h6>Firstname :</h6></div>
+            <div class="col-4 col-sm-3">{{ UserInfo.firstname }}</div>
           </div>
 
           <div class="row align-items-start">
-            <div class="col-3"><h6>Email :</h6></div>
-            <div class="col">{{ UserInfo.email }}</div>
+            <div class="col-4 col-sm-3"><h6>Email :</h6></div>
+            <div class="col-4 col-sm-3">{{ UserInfo.email }}</div>
           </div>
           <div class="row align-items-start">
-            <div class="col-3"><h6>Coin :</h6></div>
-            <div class="col">{{ UserInfo.coin }}</div>
+            <div class="col-4 col-sm-3"><h6>Coin :</h6></div>
+            <div class="col-4 col-sm-3">{{ UserInfo.coin }}</div>
           </div>
         </div>
       </div>
