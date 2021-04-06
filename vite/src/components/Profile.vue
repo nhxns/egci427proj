@@ -7,7 +7,7 @@
           <br />
           <div class="row align-items-start">
             <div class="col-3"><h6>Username :</h6></div>
-            <div class="col">One of three columns</div>
+            <div class="col">{{ UserInfo.username }}</div>
           </div>
           <div class="row align-items-start">
             <div class="col-3"><h6>Firstname :</h6></div>
@@ -46,7 +46,15 @@
                 <h1 class="card-title pricing-card-title">
                   800<small class="text-muted fw-light"> Coins</small>
                 </h1>
-                <button type="button" class="w-100 btn btn-lg btn-outline-success">THB 349</button>
+                <button
+                  type="button"
+                  data-toggle="modal"
+                  data-target=".bd-example-modal-sm"
+                  class="w-100 btn btn-lg btn-outline-success"
+                  @click="getCoin(800)"
+                >
+                  THB 349
+                </button>
               </div>
             </div>
           </div>
@@ -60,7 +68,15 @@
                   1600<small class="text-muted fw-light"> Coins</small>
                 </h1>
 
-                <button type="button" class="w-100 btn btn-lg btn-outline-success">THB 699</button>
+                <button
+                  type="button"
+                  data-toggle="modal"
+                  data-target=".bd-example-modal-sm"
+                  class="w-100 btn btn-lg btn-outline-success"
+                  @click="getCoin(1600)"
+                >
+                  THB 699
+                </button>
               </div>
             </div>
           </div>
@@ -74,7 +90,13 @@
                   3300<small class="text-muted fw-light"> Coins</small>
                 </h1>
 
-                <button type="button" class="w-100 btn btn-lg btn-outline-success">
+                <button
+                  type="button"
+                  data-toggle="modal"
+                  data-target=".bd-example-modal-sm"
+                  class="w-100 btn btn-lg btn-outline-success"
+                  @click="getCoin(3300)"
+                >
                   THB 1,459
                 </button>
               </div>
@@ -83,8 +105,36 @@
         </div>
       </main>
       <ul>
-        <li :key="item.key" v-for="item in collections">{{ item.id }}</li>
+        <li :key="item.key" v-for="item in UserInfo">{{ item.id }}</li>
       </ul>
+    </div>
+
+    <!-- confirmation -->
+    <div
+      class="modal fade bd-example-modal-sm"
+      id="myModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title" id="exampleModalLabel">Are you sure?</h1>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">Are you sure you want to pay for {{ coin }} coins?</div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <router-link to="/">
+              <button type="button" class="btn btn-danger" @click="updateCoin()">Yes</button>
+            </router-link>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -95,22 +145,34 @@ export default {
   components: {},
   data() {
     return {
-      collections: [],
+      UserInfo: [],
+      coin: 0,
     };
   },
   mounted() {
     const db = firebase.firestore();
 
-    db.collection("auction")
+    db.collection("user")
+      .doc(firebase.auth().currentUser.uid)
       .get()
       .then((snap) => {
-        const collections = [];
+        const UserInfo = [];
         snap.forEach((doc) => {
-          collections.push({ id: doc.id, ...doc.data() });
+          UserInfo.push({ id: doc.id, ...doc.data() });
         });
-        this.collections = collections;
-        console.log(collections);
+        this.UserInfo = UserInfo;
+        console.log(UserInfo);
       });
+  },
+  methods: {
+    getCoin(val) {
+      this.coin = val;
+    },
+    updateCoin() {
+      db.collection("user")
+        .doc(firebase.auth().currentUser.uid)
+        .update("coin", FieldValue.increment(this.coin));
+    },
   },
 };
 </script>
