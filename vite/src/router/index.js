@@ -25,16 +25,25 @@ const routes = [
     path: "/home",
     name: "Home",
     component: Home,
+    meta:{
+      AuthAndUnauth: true
+    }
   },
   {
     path: "/signin",
     name: "signIn",
     component: SignIn,
+    meta:{
+      requiresAuth: false
+    }
   },
   {
     path: "/buy",
     name: "Buy",
     component: Buy,
+    meta:{
+      AuthAndUnauth: true
+    }
   },
   {
     path: "/sell",
@@ -43,7 +52,7 @@ const routes = [
     meta:{
       requiresAuth: true
     }
-  },
+  }, 
   {
     path: "/profile",
     name: "Profile",
@@ -56,6 +65,9 @@ const routes = [
     path: "/signup",
     name: "signUp",
     component: SignUp,
+    meta:{
+      requiresAuth: false
+    }
   },
   {
     path: "/bid",
@@ -73,17 +85,35 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
+
+  // Keep current user
   const currentUser = firebase.auth().currentUser
+
+
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
-  if (requiresAuth && !currentUser) {
-    console.log("You are not authorized to access this area.");
-    next('signin')
-  } else if (!requiresAuth && currentUser) {
-    console.log("You are authorized to access this area.");
-    next('')
-  } else {
+  const AuthAndUnauth = to.matched.some(record => record.meta.AuthAndUnauth)
+
+  //condition that every user can access without signin
+  if(AuthAndUnauth){
+    console.log("Every one can access to this area")
     next()
   }
+  if(!requiresAuth && currentUser){
+      next('home')
+  }
+  if(requiresAuth && !currentUser){
+    next('signin')
+  }
+  next()
+  // if (requiresAuth && !currentUser) {
+  //   console.log("You are not authorized to access this area.");
+  //   next('signin')
+  // } else if (!requiresAuth && currentUser) {
+  //   console.log("You are authorized to access this area.");
+  //   next('')
+  // } else {
+  //   next()
+  // }
 })
 
 export default router;

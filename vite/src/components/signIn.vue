@@ -30,6 +30,7 @@
               </div>
               <button type="submit" class="btn btn-login" @click.prevent="signIn()">Login</button>
               <button type="submit" class="btn btn-register" @click.prevent="signUp()">Register</button>
+              <button type="submit" class="btn btn-register" @click.prevent="back()">Back</button>
             </form>
           </div>
         </div>
@@ -66,6 +67,9 @@ export default {
     },
     signUp(){
       window.location.href = "/signup"
+    },
+    back(){
+      window.location.href = "/home"
     }
   },
 };
