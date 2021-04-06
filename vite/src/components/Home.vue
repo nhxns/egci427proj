@@ -149,7 +149,7 @@ export default {
         // return current + closedate
       }
     },
-
+//this is to check which piece is over the set period of auction
     CompareDated(date) {
       const current = new Date().getTime();
 
@@ -157,7 +157,7 @@ export default {
 
       return diff < 0;
     },
-
+// command that chage the pieces to sold
     checksold(idin) {
       const db = firebase.firestore();
 
