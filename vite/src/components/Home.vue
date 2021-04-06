@@ -19,6 +19,13 @@
     <!-- card (show images & details) -->
     <div class="container py-5">
       <h4>Today:</h4>
+
+      <div v-if="loading" class="d-flex justify-content-center">
+        <div class="spinner-border" style="width: 8rem; height: 8rem" role="status">
+          <span class="visually-hidden"></span>
+        </div>
+      </div>
+
       <div class="card-deck">
         <div class="ui centered cards">
           <div
@@ -82,10 +89,12 @@ export default {
   data() {
     return {
       Gallery: [],
+      loading: true,
     };
   },
   mounted() {
     const db = firebase.firestore();
+    this.loading = true;
 
     db.collection("auction")
       .get()
@@ -95,6 +104,7 @@ export default {
           collections.push({ id: doc.id, ...doc.data() });
         });
         this.Gallery = collections;
+        this.loading = false;
         console.log(collections);
       });
   },
@@ -115,18 +125,14 @@ export default {
         var remaind = closed - currentd;
         var remainH = closeH - currentH;
         var remainMin = closeMin - currentMin;
-        if(remainMin<0){
-
-          remainH=remainH-1
-          remainMin=60+remainMin
-
+        if (remainMin < 0) {
+          remainH = remainH - 1;
+          remainMin = 60 + remainMin;
         }
 
-        if(remainH<0){
-
-          remaind=remaind-1
-          remainH=24+remainH
-
+        if (remainH < 0) {
+          remaind = remaind - 1;
+          remainH = 24 + remainH;
         }
 
         return remaind + " days " + remainH + " hours " + remainMin + " minutes";
@@ -136,11 +142,9 @@ export default {
 
     // checksold(){
 
-    //   const 
-
+    //   const
 
     // }
-
   },
 };
 </script>
