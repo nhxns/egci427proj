@@ -1,7 +1,15 @@
 <template>
   <div>
+    <!-- if data is loading then show the spinner -->
     <div class="container py-3">
-      <div class="p-5 mb-4 bg-light rounded-3">
+      <div v-if="loading" class="d-flex justify-content-center">
+        <div class="spinner-border" style="width: 8rem; height: 8rem" role="status">
+          <span class="visually-hidden"></span>
+        </div>
+      </div>
+
+      <!-- show Profile after data is loaded -->
+      <div v-else class="p-5 mb-4 bg-light rounded-3">
         <div class="container-fluid py-5">
           <h1 class="display-5 fw-bold">Profile</h1>
           <br />
@@ -11,23 +19,22 @@
           </div>
           <div class="row align-items-start">
             <div class="col-3"><h6>Firstname :</h6></div>
-            <div class="col">One of three columns</div>
+            <div class="col">{{ UserInfo.firstname }}</div>
           </div>
-          <div class="row align-items-start">
-            <div class="col-3"><h6>Lastname :</h6></div>
-            <div class="col">One of three columns</div>
-          </div>
+
           <div class="row align-items-start">
             <div class="col-3"><h6>Email :</h6></div>
-            <div class="col">One of three columns</div>
+            <div class="col">{{ UserInfo.email }}</div>
           </div>
           <div class="row align-items-start">
             <div class="col-3"><h6>Coin :</h6></div>
-            <div class="col">One of three columns</div>
+            <div class="col">{{ UserInfo.coin }}</div>
           </div>
         </div>
       </div>
       <hr class="featurette-divider" />
+
+      <!-- add coins -->
       <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
         <h1 class="display-4 fw-normal">Coin</h1>
         <p class="fs-5 text-muted">
@@ -104,9 +111,6 @@
           </div>
         </div>
       </main>
-      <ul>
-        <li :key="item.key" v-for="item in UserInfo">{{ item.id }}</li>
-      </ul>
     </div>
 
     <!-- confirmation -->
@@ -129,8 +133,15 @@
           <div class="modal-body">Are you sure you want to pay for {{ coin }} coins?</div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <router-link to="/">
-              <button type="button" class="btn btn-danger" @click="updateCoin()">Yes</button>
+            <router-link to="/profile">
+              <button
+                type="button"
+                class="btn btn-success"
+                data-dismiss="modal"
+                @click="updateCoin()"
+              >
+                Yes
+              </button>
             </router-link>
           </div>
         </div>
@@ -147,31 +158,36 @@ export default {
     return {
       UserInfo: [],
       coin: 0,
+      loading: true,
     };
   },
   mounted() {
     const db = firebase.firestore();
-
-    db.collection("user")
-      .doc(firebase.auth().currentUser.uid)
-      .get()
-      .then((snap) => {
-        const UserInfo = [];
-        snap.forEach((doc) => {
-          UserInfo.push({ id: doc.id, ...doc.data() });
+    (this.loading = true),
+      db
+        .collection("user")
+        .doc(firebase.auth().currentUser.uid)
+        .get()
+        .then((snap) => {
+          const UserInfo = snap.data();
+          this.UserInfo = UserInfo;
+          this.loading = false;
+          console.log(UserInfo);
         });
-        this.UserInfo = UserInfo;
-        console.log(UserInfo);
-      });
   },
   methods: {
     getCoin(val) {
       this.coin = val;
     },
     updateCoin() {
+      const db = firebase.firestore();
+
       db.collection("user")
         .doc(firebase.auth().currentUser.uid)
-        .update("coin", FieldValue.increment(this.coin));
+        .update("coin", firebase.firestore.FieldValue.increment(this.coin))
+        .then(() => {
+          window.location.reload();
+        });
     },
   },
 };

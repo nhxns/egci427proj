@@ -25,23 +25,29 @@
     <hr class="featurette-divider" />
     <!-- show current bid -->
     <div>
-      <h6>Current price: THB {{ this.Gallery.price }}</h6>
+      <h6>Current bid: {{ this.Gallery.price }} coins</h6>
       [ Bid by : {{ this.Gallery.bidder }} ]
     </div>
     <!-- show available coin & input amount of coin to bid -->
     <div class="d-flex align-items-end flex-column py-5" style="">
-      <div class="">*my username*</div>
+      <div class="">{{ UserInfo.username }}</div>
       <div class="d-flex justify-content-end">
-        <input type="email" class="form-control" id="bid" />
-        <div class="btn btn-dark" data-toggle="modal" data-target=".bd-example-modal-sm">
+        <input type="number" :min="this.Gallery.price" v-model="bidprice" />
+        <div
+          class="btn btn-dark"
+          data-toggle="modal"
+          data-target=".bd-example-modal-sm"
+          @click="bid(this.bidprice)"
+        >
           Bid now
         </div>
       </div>
-      <div class="">My coin : *coin*</div>
+      <div class="">My coin : {{ UserInfo.coin }}</div>
     </div>
 
     <!-- confirmation -->
     <div
+      v-if="this.bidprice > this.Gallery.price"
       class="modal fade bd-example-modal-sm"
       id="myModal"
       tabindex="-1"
@@ -57,12 +63,46 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <div class="modal-body">Are you sure you want to delete this item?</div>
+          <div class="modal-body">
+            Are you sure you want to bid this item for {{ this.bidprice }} coins?
+          </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <router-link to="/">
-              <button type="button" class="btn btn-danger" @click="delUser(uid)">Delete</button>
+            <router-link to="/bid/:picID">
+              <button
+                type="button"
+                class="btn btn-success"
+                data-dismiss="modal"
+                @click.prevent="updateCoin()"
+              >
+                Yes
+              </button>
             </router-link>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- if input bid less than current bid => show error -->
+    <div
+      v-else
+      class="modal fade bd-example-modal-sm"
+      id="myModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title" id="exampleModalLabel">Error!</h1>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">You should bid more than {{ this.Gallery.price }} coins.</div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           </div>
         </div>
       </div>
@@ -78,6 +118,8 @@ export default {
     return {
       Gallery: [],
       UserInfo: [],
+      coin: 0,
+      bidprice: 0,
     };
   },
   mounted() {
@@ -91,11 +133,9 @@ export default {
         .doc(firebase.auth().currentUser.uid)
         .get()
         .then((snap) => {
-          const UserInfo = [];
-          snap.forEach((doc) => {
-            UserInfo.push({ id: doc.id, ...doc.data() });
-          });
+          const UserInfo = snap.data();
           this.UserInfo = UserInfo;
+
           console.log(UserInfo);
         });
     },
@@ -109,6 +149,25 @@ export default {
           const collections = snap.data();
           this.Gallery = collections;
           console.log(collections);
+        });
+    },
+    bid(val) {
+      this.coin = val;
+    },
+    updateCoin() {
+      const db = firebase.firestore();
+      db.collection("auction")
+        .doc(this.$route.params.picID)
+        .update("price", this.coin)
+        .then(() => {
+          window.location.reload();
+        });
+
+      db.collection("auction")
+        .doc(this.$route.params.picID)
+        .update("bidder", this.UserInfo.username)
+        .then(() => {
+          window.location.reload();
         });
     },
   },
