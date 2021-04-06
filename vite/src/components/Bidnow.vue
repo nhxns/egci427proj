@@ -170,6 +170,9 @@ export default {
           window.location.reload();
         });
     },
+    updateArtwork() {
+      
+    }
   },
 };
 </script>

@@ -6,7 +6,7 @@
       </div>
     </div>
     <div v-else class="card-deck">
-      <div class="ui cards">
+      <div class="ui centered cards">
         <div
           class="ui card"
           style="min-width: 300px; max-width: 300px"
@@ -34,7 +34,7 @@
                   data-target=".bd-example-modal-sm"
                   v-if="product.status == 'available'"
                 >
-                  Buy
+                  {{ product.price }} coins
                 </button>
                 <button class="btn btn-dark" v-else-if="product.status == 'sold'" disabled>
                   Sold!
