@@ -3,7 +3,7 @@
     <!-- navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container-fluid">
-        <a class="navbar-brand" href="/">Art.Auction</a>
+        <a class="navbar-brand" href="/home">Art.Auction</a>
         <button
           class="navbar-toggler"
           type="button"
@@ -18,7 +18,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="/">Home</a>
+              <a class="nav-link active" aria-current="page" href="/home">Home</a>
             </li>
             <li class="nav-item">
               <a class="nav-link active" href="/buy">Buy</a>
@@ -28,6 +28,9 @@
             </li>
             <li class="nav-item">
               <a class="nav-link active" href="/profile">Profile</a>
+            </li>
+            <li class="nav-item">
+              <button type="submit" class="btn btn-signout" @click="logout()">Sign out</button>
             </li>
           </ul>
         </div>
@@ -55,8 +58,27 @@
 </template>
 
 <script>
+import firebase from "firebase"
 export default {
   name: "App",
   components: {},
+  methods:{
+    logout() {
+        firebase.auth().signOut()
+          .then(()=> {
+            this.$router.replace('/signin')
+          })
+          .catch( error => {
+              console.log(error.message)
+          })
+    }
+  }
 };
 </script>
+
+<style>
+.btn-signout {
+  background-color: black;
+  color: white;
+}
+</style>

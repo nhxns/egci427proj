@@ -11,8 +11,8 @@
         <div class="login-form">
           <form>
             <div class="form-group">
-              <label>User Name</label>
-              <input type="text" class="form-control" placeholder="User Name" v-model="username" />
+              <label>Email</label>
+              <input type="text" class="form-control" placeholder="Email" v-model="formData.email" />
             </div>
             <div class="form-group">
               <label>Password</label>
@@ -20,16 +20,21 @@
                 type="password"
                 class="form-control"
                 placeholder="Password"
-                v-model="password"
+                v-model="formData.password"
               />
             </div>
             <div class="form-group">
-              <label>Email</label>
-              <input type="text" class="form-control" placeholder="Email" v-model="email" />
+              <label>Username</label>
+              <input type="text" class="form-control" placeholder="Username" v-model="formData.username"/>
             </div>
-            <button type="submit" class="btn btn-secondary" @click.prevent="register()">
+            <div class="form-group">
+              <label>First name</label>
+              <input type="text" class="form-control" placeholder="First name" v-model="formData.firstname"/>
+            </div>
+            <button type="submit" class="btn btn-signup" @click.prevent="register()">
               Register
             </button>
+            <button type="submit" class="btn btn-signup" @click.prevent="backToSignIn()">Back</button>
           </form>
         </div>
       </div>
@@ -38,19 +43,46 @@
 </template>
 
 <script>
+import firebase from "firebase"
 export default {
   name: "SignIn",
   data() {
     return {
-      username: "",
-      password: "",
-      email: "",
+      formData:{
+        password: "",
+        email: "",
+        firstname: "",
+      }
     };
   },
   methods: {
     register() {
-      window.location.href = "/signin";
+      firebase
+        .auth()
+        .createUserWithEmailAndPassword(
+          this.formData.email,
+          this.formData.password,
+        )
+        .then(async(res) => {
+          const data = {
+            email: res.user.email,
+            username: this.formData.username,
+            firstname: this.formData.firstname
+          }
+          const db = firebase.firestore()
+          await db.collection('user').doc(res.user.uid).set(data)
+            .catch((err) =>{
+              console.log(err)
+            })
+          this.$router.replace("/home")
+        })
+        .catch(error => {
+          console.log(error.message)
+        })
     },
+    backToSignIn(){
+      window.location.href = "/signin"
+    }
   },
 };
 </script>
@@ -124,8 +156,8 @@ body {
   font-weight: 300;
 }
 
-.btn-black {
-  background-color: #000 !important;
+.btn-signup {
+  background-color: black;
   color: #fff;
 }
 </style>
