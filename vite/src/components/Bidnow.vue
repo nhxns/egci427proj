@@ -7,11 +7,11 @@
     </div>
     <!-- overall detail of the picture -->
     <div class="row featurette">
-      <div class="col-md-5">
+      <div class="col-6 col-sm-10 col-md-7" align="center">
         <img :src="'' + this.Gallery.url" style="width: 380px" />
       </div>
 
-      <div class="col-md-7">
+      <div class="col-8 col-sm-10 col-md-4">
         <h1 class="featurette-heading">
           {{ this.Gallery.artname }} <br /><span class="text-muted"
             >Artist: {{ this.Gallery.artist }}</span
@@ -173,9 +173,7 @@ export default {
           window.location.reload();
         });
     },
-    updateArtwork() {
-      
-    }
+    updateArtwork() {},
   },
 };
 </script>
