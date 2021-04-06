@@ -15,19 +15,16 @@ const routerHistory = createWebHistory();
 const routes = [
   {
     path: "/",
-    redirect: "/signin"
+    redirect: "/home"
   },
   {
     path: "/:catchAll(.*)",
-    redirect: "/signin"
+    redirect: "/home"
   },
   {
     path: "/home",
     name: "Home",
     component: Home,
-    meta:{
-      requiresAuth: true
-    }
   },
   {
     path: "/signin",
@@ -38,9 +35,6 @@ const routes = [
     path: "/buy",
     name: "Buy",
     component: Buy,
-    meta:{
-      requiresAuth: true
-    }
   },
   {
     path: "/sell",

@@ -1,7 +1,7 @@
 <template>
   <div class="container py-5">
     <div class="card-deck">
-        <div class="ui centered cards">
+        <div class="ui cards">
           <div
             class="ui card"
             style="min-width: 15rem; max-width: 40rem"
@@ -9,51 +9,71 @@
             :key="product.id"
           >
             <div class="image">
-              <img src="../assets/12180.jpg">
+              <img :src="'' + product.url"  />
             </div>
             <div class="content">
-              <a class="header">{{ product.title }}</a>
-              <div class="meta">
-                {{ product.content }}
-              </div>
-              <div class="description">{{ product.content }}</div>
+              <a class="header">{{ product.artname }}</a>
+              <div class="description"><b>Description:</b> {{ product.description }}</div>
+              <div class="artist"><b>Artist:</b> {{ product.artist}}</div>
             </div>
             <!-- sent ID in order to bid -->
             <div class="card-footer">
               <p class="card-text">
-                <a href="/" class="btn btn-dark">test</a>
-                <br />
+                <button class="btn btn-dark" data-toggle="modal" data-target=".bd-example-modal-sm" @click="BuyCheck(product.id)" v-if="product.status=='available'">Buy</button>
+                <button class="btn btn-dark" v-else-if="product.status=='sold'" disabled>Sold!</button>
+                <br/>
               </p>
             </div>
+            <div class="modal fade bd-example-modal-sm" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title" id="exampleModalLabel">{{ product.artname }}</h1>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    Are you sure to buy this Artwork ? </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-dark" @click="buy(product.id)">Buy</button>
+            </div>
+        </div>
+      </div>
+    </div>
           </div>
         </div>
     </div>
   </div>
 </template>
 <script>
+import firebase from "firebase"
 export default {
   name: "Home",
   components: {},
   data() {
     return {
-      art_products:[
-        {
-          id: "1",
-          title: "art no 1",
-          content: "monkey"
-        },
-        {
-          id: "2",
-          title: "art no 2",
-          content: "tiger"
-        },
-        {
-          id: "3",
-          title: "art no 3",
-          content: "donkey"
-        }
-      ]
+      art_products:[]
     };
   },
+  mounted(){
+    const db = firebase.firestore();
+
+    db.collection("product")
+      .get()
+      .then((snap) => {
+        const collections = [];
+        snap.forEach((doc) => {
+          collections.push({ id: doc.id, ...doc.data() });
+        });
+        this.art_products = collections;
+        console.log(collections);
+      });
+  }
 };
 </script>
+
+<style>
+
+</style>
