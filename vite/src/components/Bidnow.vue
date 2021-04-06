@@ -77,19 +77,40 @@ export default {
   data() {
     return {
       Gallery: [],
+      UserInfo: [],
     };
   },
   mounted() {
-    const db = firebase.firestore();
-    console.log(this.$route.params.picID);
-    db.collection("auction")
-      .doc(this.$route.params.picID)
-      .get()
-      .then((snap) => {
-        const collections = snap.data();
-        this.Gallery = collections;
-        console.log(collections);
-      });
+    this.getUserInfo();
+    this.getPicData();
+  },
+  methods: {
+    getUserInfo() {
+      const db = firebase.firestore();
+      db.collection("user")
+        .doc(firebase.auth().currentUser.uid)
+        .get()
+        .then((snap) => {
+          const UserInfo = [];
+          snap.forEach((doc) => {
+            UserInfo.push({ id: doc.id, ...doc.data() });
+          });
+          this.UserInfo = UserInfo;
+          console.log(UserInfo);
+        });
+    },
+    getPicData() {
+      const db = firebase.firestore();
+      console.log(this.$route.params.picID);
+      db.collection("auction")
+        .doc(this.$route.params.picID)
+        .get()
+        .then((snap) => {
+          const collections = snap.data();
+          this.Gallery = collections;
+          console.log(collections);
+        });
+    },
   },
 };
 </script>
