@@ -1,53 +1,48 @@
 <template>
   <div class="container mt-5">
     <div class="pb-2">
-      <router-link to="/">
-        <a class=""> &lt;&lt; Back to Home</a>
+      <router-link to="/buy">
+        <a class="dark"> Others Artwork</a>
       </router-link>
     </div>
     <!-- overall detail of the picture -->
     <div class="row featurette">
-      <div class="col-6 col-sm-10 col-md-7" align="center">
-        <img :src="'' + this.Gallery.url" style="width: 380px" />
+      <div class="col-md-5">
+        <img :src="'' + this.art_product.url" style="width: 380px" />
       </div>
 
-      <div class="col-8 col-sm-10 col-md-4">
+      <div class="col-md-7">
         <h1 class="featurette-heading">
-          {{ this.Gallery.artname }} <br /><span class="text-muted"
-            >Artist: {{ this.Gallery.artist }}</span
+          {{ this.art_product.artname }} <br /><span class="text-muted"
+            >Artist: {{ this.art_product.artist }}</span
           >
         </h1>
-        <p>By: {{ this.Gallery.username }}</p>
+        <p>By: {{ this.art_product.username }}</p>
 
-        <p class="lead">{{ this.Gallery.description }}</p>
-      </div>
-    </div>
-    <hr class="featurette-divider" />
-    <!-- show current bid -->
-    <div>
-      <h6>Current bid: {{ this.Gallery.price }} coins</h6>
-      [ Bid by : {{ this.Gallery.bidder }} ]
-    </div>
-    <!-- show available coin & input amount of coin to bid -->
-    <div class="d-flex align-items-end flex-column py-5" style="">
+        <p class="lead">{{ this.art_product.description }}</p>
+
+        <h2><span class="text-muted">Price: {{ this.art_product.price }} coins</span></h2>
+
+        <div class="d-flex align-items-end flex-column py-5" style="">
       <div class="">{{ UserInfo.username }}</div>
       <div class="d-flex justify-content-end">
-        <input type="number" :min="this.Gallery.price" v-model="bidprice" />
         <div
           class="btn btn-dark"
           data-toggle="modal"
           data-target=".bd-example-modal-sm"
-          @click="bid(this.bidprice)"
         >
-          Bid now
+          Buy
         </div>
       </div>
       <div class="">My coin : {{ UserInfo.coin }}</div>
     </div>
+      </div>
+    </div>
+    <hr class="featurette-divider" />
+    
 
     <!-- confirmation -->
     <div
-      v-if="this.bidprice > this.Gallery.price"
       class="modal fade bd-example-modal-sm"
       id="myModal"
       tabindex="-1"
@@ -64,26 +59,24 @@
             </button>
           </div>
           <div class="modal-body">
-            Are you sure you want to bid this item for {{ this.bidprice }} coins?
+            Are you sure you want to buy {{ this.art_product.artname }}  for {{ this.art_product.price }} coins?
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <router-link to="/bid/:picID">
               <button
                 type="button"
                 class="btn btn-success"
                 data-dismiss="modal"
-                @click.prevent="updateCoin()"
+                @click.prevent="updateCoin(), updateArtwork()"
               >
                 Yes
               </button>
-            </router-link>
           </div>
         </div>
       </div>
     </div>
     <!-- if input bid less than current bid => show error -->
-    <div
+    <!-- <div
       v-else
       class="modal fade bd-example-modal-sm"
       id="myModal"
@@ -106,28 +99,26 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 <script>
 import firebase from "firebase";
 export default {
-  name: "Bid",
+  name: "Product",
   components: {},
   data() {
     return {
-      Gallery: [],
+      art_product: [],
       UserInfo: [],
       coin: 0,
-      bidprice: 0,
     };
   },
   mounted() {
     this.getUserInfo();
-    this.getPicData();
+    this.getProductData();
   },
   methods: {
-    //get userinfo
     getUserInfo() {
       const db = firebase.firestore();
       db.collection("user")
@@ -140,40 +131,39 @@ export default {
           console.log(UserInfo);
         });
     },
-    //get pictureinfo
-    getPicData() {
+    getProductData() {
       const db = firebase.firestore();
-      console.log(this.$route.params.picID);
-      db.collection("auction")
-        .doc(this.$route.params.picID)
+      console.log(this.$route.params.productId);
+      db.collection("product")
+        .doc(this.$route.params.productId)
         .get()
         .then((snap) => {
           const collections = snap.data();
-          this.Gallery = collections;
+          this.art_product = collections;
           console.log(collections);
         });
     },
     bid(val) {
       this.coin = val;
     },
-    //update coin
     updateCoin() {
       const db = firebase.firestore();
-      db.collection("auction")
-        .doc(this.$route.params.picID)
-        .update("price", this.coin)
+      db.collection("user")
+        .doc(firebase.auth().currentUser.uid)
+        .update("coin", firebase.firestore.FieldValue.increment(-this.coin))
         .then(() => {
-          window.location.reload();
-        });
-
-      db.collection("auction")
-        .doc(this.$route.params.picID)
-        .update("bidder", this.UserInfo.username)
-        .then(() => {
-          window.location.reload();
+          window.location.href = "/buy";
         });
     },
-    updateArtwork() {},
+    updateArtwork() {
+        const db = firebase.firestore();
+        db.collection("product")
+        .doc(this.$route.params.productId)
+        .update("status", "sold")
+        .then(() => {
+            window.location.href = "/buy"
+        })
+    }
   },
 };
 </script>

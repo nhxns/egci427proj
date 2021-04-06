@@ -44,7 +44,7 @@
     <footer class="footer mt-auto py-3 bg-light">
       <div class="container ma-5">
         <span class="text-muted">
-          <h4>Art.Action</h4>
+          <h4>A r t . A c t i o n</h4>
           By:
           <ul>
             <li>Phattharaporn Roekduangchan 6080727</li>
