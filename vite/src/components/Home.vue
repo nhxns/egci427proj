@@ -76,10 +76,6 @@
       </div>
     </div>
   </div>
-  <!-- Close in : {{ new Date(picture.timeclose.seconds * 1000).toLocaleString()
-                  }}<br />
-                  {{ new Date().toLocaleString() }}<br
-                /> -->
 </template>
 <script>
 import firebase from "firebase";
@@ -93,6 +89,7 @@ export default {
     };
   },
   mounted() {
+    //get data from firestore collection("auction")
     const db = firebase.firestore();
     this.loading = true;
 
@@ -109,6 +106,7 @@ export default {
       });
   },
   methods: {
+    //calculate time left (until close auction)
     CompareDate(date, status) {
       if (status != "sold") {
         const current = new Date();

@@ -1,5 +1,6 @@
 <template>
   <div class="container py-5">
+    <!-- input form -->
     <div class="ui segment">
       <div class="ui form">
         <div class="two fields">
@@ -49,6 +50,7 @@ export default {
     };
   },
   mounted() {
+    //get this user info from auth uid & keep the username,firstname
     const db = firebase.firestore();
     (this.loading = true),
       db
@@ -65,6 +67,7 @@ export default {
         });
   },
   methods: {
+    //add to firestore collection ("product")
     addtoFirestore() {
       const db = firebase.firestore();
       db.collection("product")

@@ -127,6 +127,7 @@ export default {
     this.getPicData();
   },
   methods: {
+    //get userinfo
     getUserInfo() {
       const db = firebase.firestore();
       db.collection("user")
@@ -139,6 +140,7 @@ export default {
           console.log(UserInfo);
         });
     },
+    //get pictureinfo
     getPicData() {
       const db = firebase.firestore();
       console.log(this.$route.params.picID);
@@ -154,6 +156,7 @@ export default {
     bid(val) {
       this.coin = val;
     },
+    //update coin
     updateCoin() {
       const db = firebase.firestore();
       db.collection("auction")
