@@ -63,7 +63,6 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <router-link to="/bid/:picID">
               <button
                 type="button"
                 class="btn btn-success"
@@ -72,7 +71,6 @@
               >
                 Yes
               </button>
-            </router-link>
           </div>
         </div>
       </div>
@@ -118,7 +116,7 @@ export default {
   },
   mounted() {
     this.getUserInfo();
-    this.getPicData();
+    this.getProductData();
   },
   methods: {
     getUserInfo() {
@@ -133,7 +131,7 @@ export default {
           console.log(UserInfo);
         });
     },
-    getPicData() {
+    getProductData() {
       const db = firebase.firestore();
       console.log(this.$route.params.productId);
       db.collection("product")
@@ -150,20 +148,22 @@ export default {
     },
     updateCoin() {
       const db = firebase.firestore();
-      db.collection("auction")
-        .doc(this.$route.params.picID)
-        .update("price", this.coin)
+      db.collection("user")
+        .doc(firebase.auth().currentUser.uid)
+        .update("coin", firebase.firestore.FieldValue.increment(-this.coin))
         .then(() => {
-          window.location.reload();
-        });
-
-      db.collection("auction")
-        .doc(this.$route.params.picID)
-        .update("bidder", this.UserInfo.username)
-        .then(() => {
-          window.location.reload();
+          window.location.href = "/buy";
         });
     },
+    updateArtwork() {
+        const db = firebase.firestore();
+        db.collection("product")
+        .doc(this.$route.params.productId)
+        .update("status", "sold")
+        .then(() => {
+            window.location.href = "/buy"
+        })
+    }
   },
 };
 </script>

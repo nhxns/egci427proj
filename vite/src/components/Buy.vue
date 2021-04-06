@@ -30,8 +30,6 @@
               <router-link :to="{path: 'product', name: 'Product', params: {productId: product.id} }">
                 <button
                   class="btn btn-dark"
-                  data-toggle="modal"
-                  data-target=".bd-example-modal-sm"
                   v-if="product.status == 'available'"
                 >
                   {{ product.price }} coins
