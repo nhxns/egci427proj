@@ -1,20 +1,57 @@
 <template>
   <div>
     <!-- carousel -->
-    <div id="carouselExampleFade" class="carousel slide carousel-fade" data-ride="carousel">
+
+    <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
+      <ol class="carousel-indicators">
+        <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
+        <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
+      </ol>
       <div class="carousel-inner">
         <div class="carousel-item active">
-          <img src="../assets/bg3.JPEG" class="d-block w-100" style="height: 600px" alt="pic1" />
-          <div class="container">
-            <div class="carousel-caption text-start">
-              <h1>A r t . A u c t i o n</h1>
-              <p>w h e r e _ a r t _ c a n _ g r o w</p>
-              <p><a class="btn btn-lg btn-light" href="/signin">Register now</a></p>
+          <img src="../assets/bg1.jpg" class="d-block w-100" style="height: 600px" alt="pic1" />
+          <div class="carousel-caption d-none d-md-block">
+            <div class="container">
+              <div class="carousel-caption text-start">
+                <h1>A r t . A u c t i o n</h1>
+                <p>w h e r e _ a r t _ c a n _ g r o w</p>
+                <p><a class="btn btn-lg btn-light" href="/signin">Register now</a></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="carousel-item active">
+          <img src="../assets/bg3.JPEG" class="d-block w-100" style="height: 600px" alt="pic2" />
+          <div class="carousel-caption d-none d-md-block">
+            <div class="container">
+              <div class="carousel-caption text-start">
+                <h1>S e e _ o u r _ p r o d u c t s</h1>
+                <p>A r t . A u c t i o n</p>
+                <p><a class="btn btn-lg btn-light" href="/buy">Buy now</a></p>
+              </div>
             </div>
           </div>
         </div>
       </div>
-  </div>
+      <a
+        class="carousel-control-prev"
+        href="#carouselExampleCaptions"
+        role="button"
+        data-slide="prev"
+      >
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </a>
+      <a
+        class="carousel-control-next"
+        href="#carouselExampleCaptions"
+        role="button"
+        data-slide="next"
+      >
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </a>
+    </div>
     <br />
     <!-- card (show images & details) -->
     <div class="container py-5">
@@ -149,7 +186,7 @@ export default {
         // return current + closedate
       }
     },
-//this is to check which piece is over the set period of auction
+    //this is to check which piece is over the set period of auction
     CompareDated(date) {
       const current = new Date().getTime();
 
@@ -157,7 +194,7 @@ export default {
 
       return diff < 0;
     },
-// command that chage the pieces to sold
+    // command that chage the pieces to sold
     checksold(idin) {
       const db = firebase.firestore();
 
@@ -180,5 +217,4 @@ export default {
   margin-top: 30%;
   transform: translateY(-50%);
 }
-
 </style>
