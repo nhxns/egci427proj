@@ -1,7 +1,6 @@
 <template>
   <div>
     <!-- carousel -->
-
     <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
       <ol class="carousel-indicators">
         <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
@@ -20,7 +19,7 @@
             </div>
           </div>
         </div>
-        <div class="carousel-item active">
+        <div class="carousel-item">
           <img src="../assets/bg3.JPEG" class="d-block w-100" style="height: 600px" alt="pic2" />
           <div class="carousel-caption d-none d-md-block">
             <div class="container">

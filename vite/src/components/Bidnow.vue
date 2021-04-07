@@ -177,6 +177,8 @@ export default {
         db.collection("user")
           .doc(firebase.auth().currentUser.uid)
           .update("coin", firebase.firestore.FieldValue.increment(-price));
+      } else {
+        alert("Your coin is not enough for this amount of bid.\n Please buy more coin");
       }
     },
   },
