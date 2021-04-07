@@ -21,19 +21,23 @@
             </div>
           </div>
           <div class="content">
-            <a class="header">{{ product.artname }}</a>
+            <a class="header"
+              ><router-link
+                :to="{ path: 'product', name: 'Product', params: { productId: product.id } }"
+                >{{ product.artname }}</router-link
+              ></a
+            >
             <div class="description"><b>Description:</b> {{ product.description }}</div>
             <div class="artist"><b>Artist:</b> {{ product.artist }}</div>
-            <div class="price"><b>Price:</b> {{product.price}}</div>
+            <div class="price"><b>Price:</b> {{ product.price }}</div>
           </div>
           <!-- sent productId by using button in order to give productId in product page -->
           <div class="card-footer">
             <p class="card-text">
-              <router-link :to="{path: 'product', name: 'Product', params: {productId: product.id} }">
-                <button
-                  class="btn btn-dark"
-                  v-if="product.status == 'available'"
-                >
+              <router-link
+                :to="{ path: 'product', name: 'Product', params: { productId: product.id } }"
+              >
+                <button class="btn btn-dark" v-if="product.status == 'available'">
                   {{ product.price }} coins
                 </button>
                 <button class="btn btn-dark" v-else-if="product.status == 'sold'" disabled>

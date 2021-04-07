@@ -27,6 +27,7 @@
         </div>
         <div class="ui submit button" @click="addtoFirestore()">Submit</div>
       </div>
+      <div class="d-flex align-items-end flex-column" style="">*For sale only</div>
     </div>
   </div>
 </template>

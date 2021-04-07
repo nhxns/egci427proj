@@ -1,9 +1,9 @@
 <template>
-<!-- link to the buy page -->
+  <!-- link to the buy page -->
   <div class="container mt-5">
     <div class="pb-2">
       <router-link to="/buy">
-        <a class="dark"> Others Artwork</a>
+        <a class="dark"> &lt;&lt; Others Artwork</a>
       </router-link>
     </div>
     <!-- overall detail of the artwork -->
@@ -22,25 +22,30 @@
 
         <p class="lead">{{ this.art_product.description }}</p>
 
-        <h2><span class="text-muted">Price: {{ this.art_product.price }} coins</span></h2>
-        <!-- user detail, button to buy and current user coin -->
+        <h2>
+          <span class="text-muted">Price: {{ this.art_product.price }} coins</span>
+        </h2>
+        <!-- user detail, button to buy(if the product is available) and current user coin -->
+
         <div class="d-flex align-items-end flex-column py-5" style="">
-      <div class="">{{ UserInfo.username }}</div>
-      <div class="d-flex justify-content-end">
-        <div
-          class="btn btn-dark"
-          data-toggle="modal"
-          data-target=".bd-example-modal-sm"
-        >
-          Buy
+          <div class="">{{ UserInfo.username }}</div>
+          <div class="d-flex justify-content-end">
+            <div
+              v-if="this.art_product.status != 'sold'"
+              class="btn btn-dark"
+              data-toggle="modal"
+              data-target=".bd-example-modal-sm"
+            >
+              Buy
+            </div>
+            <!-- show "sold" when the product is sold -->
+            <button class="btn btn-dark" v-else disabled>Sold!</button>
+          </div>
+          <div class="">My coin : {{ UserInfo.coin }}</div>
         </div>
-      </div>
-      <div class="">My coin : {{ UserInfo.coin }}</div>
-    </div>
       </div>
     </div>
     <hr class="featurette-divider" />
-    
 
     <!-- confirmation part before the user buys the artwork -->
     <div
@@ -60,18 +65,19 @@
             </button>
           </div>
           <div class="modal-body">
-            Are you sure you want to buy {{ this.art_product.artname }}  for {{ this.art_product.price }} coins?
+            Are you sure you want to buy {{ this.art_product.artname }} for
+            {{ this.art_product.price }} coins?
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button
-                type="button"
-                class="btn btn-success"
-                data-dismiss="modal"
-                @click.prevent="updateCoin(this.art_product.price), updateArtwork()"
-              >
-                Yes
-              </button>
+            <button
+              type="button"
+              class="btn btn-success"
+              data-dismiss="modal"
+              @click.prevent="updateCoin(this.art_product.price), updateArtwork()"
+            >
+              Yes
+            </button>
           </div>
         </div>
       </div>
@@ -133,14 +139,14 @@ export default {
     },
     // function to update the artwork to be sold after user buy it already
     updateArtwork() {
-        const db = firebase.firestore();
-        db.collection("product")
+      const db = firebase.firestore();
+      db.collection("product")
         .doc(this.$route.params.productId)
         .update("status", "sold")
         .then(() => {
-            window.location.href = "/buy"
-        })
-    }
+          window.location.href = "/buy";
+        });
+    },
   },
 };
 </script>
